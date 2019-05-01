@@ -104,15 +104,32 @@ class ContentForm(tk.Frame):
 		sourceConfirm = tk.Button(self, text='Add Source', width=20, font='Helvetica 10 bold', command=self.addSource)
 		sourceConfirm.grid(row=1, column=4, padx=20)
 
+		# Edit Vehicle label
+		editLeftSensor = tk.Label(
+			self,
+			text='Edit Left Sensor',
+			font='Helvetica 14 bold',
+			fg=TEXT_COLOR,
+			bg=self.parent['bg'])
+		editLeftSensor.grid(row=2, column=0, columnspan=5, sticky='w', pady=(10, 5))
+
+		# Left sensor attachment Label
+		lSAttachLabel = tk.Label(self, text='Attachment:', font=font, fg=TEXT_COLOR, bg=self.parent['bg'])
+		lSAttachLabel.grid(row=3, column=0, padx=5)
+
+		# Left sensor attachment
+		self.lSAttach = tk.Entry(self, width=7, font=font, bg=entryBgColor, fg=entryFgColor)
+		self.lSAttach.grid(row=3, column=1, padx=5)
+
 		# TODO - Add vehicle params form
 
 		# Run the simulation
 		self.runSimBtn = tk.Button(self, text='Run Simulation', font='Helvetica 14 bold', width=30, command=self.runSimulation)
-		self.runSimBtn.grid(row=3, column=0, columnspan=5, pady=(30, 10))
+		self.runSimBtn.grid(row=5, column=0, columnspan=5, pady=(30, 10))
 
 		# Reset the sources and vehicle
 		self.resetBtn = tk.Button(self, text='Reset', font='Helvetica 10 bold', width=7, command=self.resetEnv)
-		self.resetBtn.grid(row=4, column=0, columnspan=5, pady=(10, 20))
+		self.resetBtn.grid(row=6, column=0, columnspan=5, pady=(10, 20))
 
 	# Retrieves the currently entered values for the source addition and adds it to the environment state
 	def addSource(self):
@@ -321,13 +338,13 @@ class Vehicle:
 		self.lSensor = {
 			'x': self.x + self.width/4,
 			'y': self.y + self.height/2,
-			'inhibitory': True,
+			'inhibitory': False,
 			'attachment': 'left'
 		}
 		self.rSensor = {
 			'x': self.x - self.width/4,
 			'y': self.y + self.height/2,
-			'inhibitory': True,
+			'inhibitory': False,
 			'attachment': 'right'
 		}
 
