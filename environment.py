@@ -62,7 +62,7 @@ class Environment(tk.Frame):
 
 	# Gets the source value at the given canvas location
 	def getSourceValue(self, x, y):
-		distances = (np.array(self.state['sourceXIndices']) - x/(self.width/8)) ** 2 + (np.array(self.state['sourceYIndices']) - y/(self.width/8)) **2
+		distances = (np.array(self.state['sourceXIndices']) - (x/(self.width/8)) + 1) ** 2 + (np.array(self.state['sourceYIndices']) - (y/(self.width/8)) + 1) **2
 		distances = np.sqrt(distances)
 		strengths = self.sourceStrength / distances ** 2
 		return np.sum(strengths)
