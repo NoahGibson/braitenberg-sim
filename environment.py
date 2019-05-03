@@ -24,6 +24,7 @@ class Environment(tk.Frame):
 		self.state = {
 			'sourceXIndices': [],
 			'sourceYIndices': [],
+			'sourcesPoints': [],
 			'sources': [],
 			'vehicle': Vehicle(self, self.canvas, self.width/2, self.height/2)
 		}
@@ -50,6 +51,7 @@ class Environment(tk.Frame):
 	def addSource(self, x, y):
 		self.state['sourceXIndices'].append(x)
 		self.state['sourceYIndices'].append(y)
+		self.state['sourcesPoints'].append((x, y))
 		self.state['sources'].append(Source(self.canvas, (x+1)*(self.width/8), (y+1)*(self.height/8)))
 
 	# Resets the state of the environment i.e. removes any sources and resets the vehicle

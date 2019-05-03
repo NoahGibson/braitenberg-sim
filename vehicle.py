@@ -69,6 +69,7 @@ class Vehicle:
 		# Getting the speed of each wheel, and their average speed
 		vRight = 0
 		vLeft = 0
+		# Getting the velocity from the corresponding sensors
 		if self.rSensor['attachment'] == 'right':
 			vRight += self.speedRatio * rightInput
 		else:
@@ -77,12 +78,19 @@ class Vehicle:
 			vLeft += self.speedRatio * leftInput
 		else:
 			vRight += self.speedRatio * leftInput
+		# Maxing out the speed of each wheel
 		vRight = vRight if vRight < self.maxSpeed else self.maxSpeed
 		vLeft = vLeft if vLeft < self.maxSpeed else self.maxSpeed
+		# print('vRight: ' + str(vRight))
+		# print('vLeft: ' + str(vLeft))
+		# Changing velocity if inhibitory
 		if self.rSensor['inhibitory']:
-			vRight = 1/vRight if vRight != 0 else self.maxSpeed
+			# vRight = 1/vRight if vRight != 0 else self.maxSpeed
+			vRight = self.maxSpeed - vRight
 		if self.lSensor['inhibitory']:
-			vLeft = 1/vLeft if vLeft != 0 else self.maxSpeed
+			# vLeft = 1/vLeft if vLeft != 0 else self.maxSpeed
+			vLeft = self.maxSpeed - vLeft
+		# Getting average of velocities
 		vAvg = (vRight + vLeft) / 2
 
 		# If the speeds are not equal, vehicle will rotate
@@ -253,3 +261,11 @@ class Vehicle:
 		if wheel != 'left' and wheel != 'right':
 			raise ValueError('wheel must be either "left" or "right", but got ' + str(wheel))
 		self.rSensor['attachment'] = wheel
+
+	# Sets the inibition for the left sensor
+	def setLeftSensorInhibit(self, inhibit):
+		self.lSensor['inhibitory'] = inhibit
+
+	# Sets the inibition for the right sensor
+	def setRightSensorInhibit(self, inhibit):
+		self.rSensor['inhibitory'] = inhibit

@@ -125,7 +125,7 @@ class ContentForm(tk.Frame):
 		lSInhibitLabel.grid(row=1, column=3, padx=5)
 		# Left sensor inhibit
 		self.lSInhibit = tk.BooleanVar(value=False)
-		lSInhibitPick = tk.Checkbutton(editLeftSensorFrame, variable=self.lSInhibit, text='Inverse', width=7, font='Helvetica 10 bold', indicatoron=0)
+		lSInhibitPick = tk.Checkbutton(editLeftSensorFrame, variable=self.lSInhibit, text='Inverse', width=7, font='Helvetica 10 bold', indicatoron=0,command=self.updateLeftSensorInhibit)
 		lSInhibitPick.grid(row=1, column=4, padx=5)
 
 		# Edit right Sensor
@@ -151,7 +151,7 @@ class ContentForm(tk.Frame):
 		rSInhibitLabel.grid(row=1, column=3, padx=5)
 		# Right sensor inhibit
 		self.rSInhibit = tk.BooleanVar(value=False)
-		rSInhibitPick = tk.Checkbutton(editRightSensorFrame, variable=self.rSInhibit, text='Inverse', width=7, font='Helvetica 10 bold', indicatoron=0)
+		rSInhibitPick = tk.Checkbutton(editRightSensorFrame, variable=self.rSInhibit, text='Inverse', width=7, font='Helvetica 10 bold', indicatoron=0, command=self.updateRightSensorInhibit)
 		rSInhibitPick.grid(row=1, column=4, padx=5)
 
 		# Simulation options frame
@@ -184,7 +184,7 @@ class ContentForm(tk.Frame):
 		except ValueError:
 			messagebox.showwarning('Invalid Row', 'The row value must be an integer between 0 and 6.')
 			return
-		if xIndex in app.environment.state['sourceXIndices'] and yIndex in app.environment.state['sourceYIndices']:
+		if (xIndex, yIndex) in app.environment.state['sourcesPoints']:
 			messagebox.showwarning('Source Already Exists', 'A source already exists in the provided location.')
 			return
 		self.sourceX.delete(0, tk.END)
@@ -215,6 +215,14 @@ class ContentForm(tk.Frame):
 	# Updates the vehicles right sensor attachment
 	def updateRightSensorAttach(self):
 		app.environment.state['vehicle'].setRightSensorAttachment(self.rSAttach.get())
+
+	# Updates the vehicles left sensor inhibition
+	def updateLeftSensorInhibit(self):
+		app.environment.state['vehicle'].setLeftSensorInhibit(self.lSInhibit.get())
+
+	# Updates the vehicles right sensor inhibition
+	def updateRightSensorInhibit(self):
+		app.environment.state['vehicle'].setRightSensorInhibit(self.rSInhibit.get())
 
 
 # Class to contain the content on the page that is not the displayed environment
