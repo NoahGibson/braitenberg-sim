@@ -11,7 +11,7 @@ class Vehicle:
 		self.environment = parent
 		self.x = x
 		self.y = y
-		self.speedRatio = 0.5 # The conversion rate between the input sensor amount and the speed of the wheel
+		self.speedRatio = 0.15 # The conversion rate between the input sensor amount and the speed of the wheel
 		self.width = 30
 		self.height = 20
 		self.maxSpeed = 1
@@ -67,12 +67,20 @@ class Vehicle:
 		t = duration
 
 		# Getting the speed of each wheel, and their average speed
-		vRight = self.speedRatio * rightInput if self.rSensor['attachment'] == 'right' else self.speedRatio * leftInput
+		vRight = 0
+		vLeft = 0
+		if self.rSensor['attachment'] == 'right':
+			vRight += self.speedRatio * rightInput
+		else:
+			vLeft += self.speedRatio * rightInput
+		if self.lSensor['attachment'] == 'left':
+			vLeft += self.speedRatio * leftInput
+		else:
+			vRight += self.speedRatio * leftInput
 		vRight = vRight if vRight < self.maxSpeed else self.maxSpeed
+		vLeft = vLeft if vLeft < self.maxSpeed else self.maxSpeed
 		if self.rSensor['inhibitory']:
 			vRight = 1/vRight if vRight != 0 else self.maxSpeed
-		vLeft = self.speedRatio * leftInput if self.lSensor['attachment'] == 'left' else self.speedRatio * rightInput
-		vLeft = vLeft if vLeft < self.maxSpeed else self.maxSpeed
 		if self.lSensor['inhibitory']:
 			vLeft = 1/vLeft if vLeft != 0 else self.maxSpeed
 		vAvg = (vRight + vLeft) / 2
@@ -233,3 +241,15 @@ class Vehicle:
 	# Renders the canvas display of the vehicle
 	def render(self):
 		self.drawing = self.canvas.create_polygon(self.vertices, fill='#FFFFFF')
+
+	# Sets the attachment wheel for the left sensor
+	def setLeftSensorAttachment(self, wheel):
+		if wheel != 'left' and wheel != 'right':
+			raise ValueError('wheel must be either "left" or "right", but got ' + str(wheel))
+		self.lSensor['attachment'] = wheel
+
+	# Sets the attachment wheel for the right sensor
+	def setRightSensorAttachment(self, wheel):
+		if wheel != 'left' and wheel != 'right':
+			raise ValueError('wheel must be either "left" or "right", but got ' + str(wheel))
+		self.rSensor['attachment'] = wheel

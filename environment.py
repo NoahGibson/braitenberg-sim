@@ -15,7 +15,7 @@ class Environment(tk.Frame):
 		self.height = 512
 		self.running = False
 		self.timeQuantum = 10
-		self.sourceStrength = 2
+		self.sourceStrength = 5
 		self.initCanvas()
 		self.initState()
 

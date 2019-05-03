@@ -116,9 +116,9 @@ class ContentForm(tk.Frame):
 		lSAttachLabel.grid(row=1, column=0, padx=5)
 		# Left sensor attachment
 		self.lSAttach = tk.StringVar(value='left')
-		lSAttachLeft = tk.Radiobutton(editLeftSensorFrame, variable=self.lSAttach, value='left', text='Left', width=7, font='Helvetica 10 bold', indicatoron=0)
+		lSAttachLeft = tk.Radiobutton(editLeftSensorFrame, variable=self.lSAttach, value='left', text='Left', width=7, font='Helvetica 10 bold', indicatoron=0, command=self.updateLeftSensorAttach)
 		lSAttachLeft.grid(row=1, column=1, padx=5)
-		lSAttachRight = tk.Radiobutton(editLeftSensorFrame, variable=self.lSAttach, value='right', text='Right', width=7, font='Helvetica 10 bold', indicatoron=0)
+		lSAttachRight = tk.Radiobutton(editLeftSensorFrame, variable=self.lSAttach, value='right', text='Right', width=7, font='Helvetica 10 bold', indicatoron=0, command=self.updateLeftSensorAttach)
 		lSAttachRight.grid(row=1, column=2, padx=5)
 		# Left sensor inhibit label
 		lSInhibitLabel = tk.Label(editLeftSensorFrame, text='Inverse:', font=font, fg=TEXT_COLOR, bg=self.parent['bg'])
@@ -142,9 +142,9 @@ class ContentForm(tk.Frame):
 		rSAttachLabel.grid(row=1, column=0, padx=5)
 		# Right sensor attachment
 		self.rSAttach = tk.StringVar(value='right')
-		rSAttachLeft = tk.Radiobutton(editRightSensorFrame, variable=self.rSAttach, value='left', text='Left', width=7, font='Helvetica 10 bold', indicatoron=0)
+		rSAttachLeft = tk.Radiobutton(editRightSensorFrame, variable=self.rSAttach, value='left', text='Left', width=7, font='Helvetica 10 bold', indicatoron=0, command=self.updateRightSensorAttach)
 		rSAttachLeft.grid(row=1, column=1, padx=5)
-		rSAttachRight = tk.Radiobutton(editRightSensorFrame, variable=self.rSAttach, value='right', text='Right', width=7, font='Helvetica 10 bold', indicatoron=0)
+		rSAttachRight = tk.Radiobutton(editRightSensorFrame, variable=self.rSAttach, value='right', text='Right', width=7, font='Helvetica 10 bold', indicatoron=0, command=self.updateRightSensorAttach)
 		rSAttachRight.grid(row=1, column=2, padx=5)
 		# Right sensor inhibit label
 		rSInhibitLabel = tk.Label(editRightSensorFrame, text='Inverse:', font=font, fg=TEXT_COLOR, bg=self.parent['bg'])
@@ -205,6 +205,16 @@ class ContentForm(tk.Frame):
 	def resetEnv(self):
 		self.runSimBtn.config(text='Run Simulation', command=self.runSimulation)
 		app.environment.resetState()
+		self.updateLeftSensorAttach()
+		self.updateRightSensorAttach()
+
+	# Updates the vehicles left sensor attachment
+	def updateLeftSensorAttach(self):
+		app.environment.state['vehicle'].setLeftSensorAttachment(self.lSAttach.get())
+
+	# Updates the vehicles right sensor attachment
+	def updateRightSensorAttach(self):
+		app.environment.state['vehicle'].setRightSensorAttachment(self.rSAttach.get())
 
 
 # Class to contain the content on the page that is not the displayed environment
