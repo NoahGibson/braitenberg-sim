@@ -7,6 +7,18 @@ This Python-based simulator allows for the editing of basic configurations for a
 ![Simulation Preview](preview.PNG)
 
 
+## Manual
+
+<dl>
+  <dt>Add Source</dt>
+  <dd>Adds a new source at the given row and column in the vehicle environment. A source produces an output field of values that decrease with the square of the distance from the source. These values are what the vehicle sensors detect.</dd>
+  <dt>Edit Sensor Output Wheel</dt>
+  <dd>The wheel to which that sensor's output is directed to. The sensor output is what affects the speed of the wheel. If no sensor's output is sent to a wheel, then that wheel will remain stationary.</dd>
+  <dt>Edit Sensor Inverse</dt>
+  <dd>Whether or not the sensor's output value should be inversed, that is, it will send a low value if it senses a high value, and vice versa. The wheel will move faster with higher values sent to it.</dd>
+</dl>
+
+
 ## Setting up Development Environment
 
 *Note: Make sure you have both Python 3 and virtualenv installed on your machine*
