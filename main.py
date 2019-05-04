@@ -28,6 +28,8 @@ app = None
 
 # IMPORTS --------------------------------------------------------------------------------------------
 
+import sys, os
+
 # Import Tkinter for GUI handling
 import tkinter as tk
 from tkinter import messagebox
@@ -207,6 +209,8 @@ class ContentForm(tk.Frame):
 		app.environment.resetState()
 		self.updateLeftSensorAttach()
 		self.updateRightSensorAttach()
+		self.updateLeftSensorInhibit()
+		self.updateRightSensorInhibit()
 
 	# Updates the vehicles left sensor attachment
 	def updateLeftSensorAttach(self):
@@ -250,6 +254,7 @@ class Application(tk.Tk):
 	def __init__(self, *args, **kwargs):
 		tk.Tk.__init__(self, *args, **kwargs)
 		self.title(APP_NAME)
+		self.iconbitmap(resourcePath('favicon.ico'))
 		self.resizable(False, False)
 		self.configure(padx=50, pady=50, background=BACKGROUND_COLOR)
 		self.initWidgets()
@@ -267,6 +272,12 @@ class Application(tk.Tk):
 
 
 # MAIN -----------------------------------------------------------------------------------------------
+
+# Handles relative path file locations
+def resourcePath(relativePath):
+	if hasattr(sys, '_MEIPASS'):
+		return os.path.join(sys._MEIPASS, relativePath)
+	return os.path.join(os.path.abspath("."), relativePath)
 
 # Main function
 def main():
