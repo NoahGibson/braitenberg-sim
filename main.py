@@ -77,6 +77,8 @@ class ContentForm(tk.Frame):
 		addSourceFrame = tk.Frame(self, bg=self.parent['bg'])
 		editLeftSensorFrame = tk.Frame(self, bg=self.parent['bg'])
 		editRightSensorFrame = tk.Frame(self, bg=self.parent['bg'])
+		editLeftWheelFrame = tk.Frame(self, bg=self.parent['bg'])
+		editRightWheelFrame = tk.Frame(self, bg=self.parent['bg'])
 		simulationOptionsFrame = tk.Frame(self, bg=self.parent['bg'])
 
 		# Add Source Frame
@@ -156,6 +158,40 @@ class ContentForm(tk.Frame):
 		rSInhibitPick = tk.Checkbutton(editRightSensorFrame, variable=self.rSInhibit, text='Inverse', width=7, font='Helvetica 10 bold', indicatoron=0, command=self.updateRightSensorInhibit)
 		rSInhibitPick.grid(row=1, column=4, padx=5)
 
+		# Edit Left Wheel
+		# Edit left Wheel label
+		editLeftWheelLabel = tk.Label(
+			editLeftWheelFrame,
+			text='Edit Left Wheel',
+			font='Helvetica 14 bold',
+			fg=TEXT_COLOR,
+			bg=self.parent['bg'])
+		editLeftWheelLabel.grid(row=0, column=0, columnspan=5, sticky='w', pady=(10, 5))
+		# Left wheel inhibit label
+		lWInhibitLabel = tk.Label(editLeftWheelFrame, text='Inverse:', font=font, fg=TEXT_COLOR, bg=self.parent['bg'])
+		lWInhibitLabel.grid(row=1, column=0, padx=5)
+		# Left wheel inhibit
+		self.lWInhibit = tk.BooleanVar(value=False)
+		lWInhibitPick = tk.Checkbutton(editLeftWheelFrame, variable=self.lWInhibit, text='Inverse', width=7, font='Helvetica 10 bold', indicatoron=0,command=self.updateLeftWheelInhibit)
+		lWInhibitPick.grid(row=1, column=1, padx=5)
+
+		# Edit Right Wheel
+		# Edit right Wheel label
+		editRightWheelLabel = tk.Label(
+			editRightWheelFrame,
+			text='Edit Right Wheel',
+			font='Helvetica 14 bold',
+			fg=TEXT_COLOR,
+			bg=self.parent['bg'])
+		editRightWheelLabel.grid(row=0, column=0, columnspan=5, sticky='w', pady=(10, 5))
+		# Right wheel inhibit label
+		rWInhibitLabel = tk.Label(editRightWheelFrame, text='Inverse:', font=font, fg=TEXT_COLOR, bg=self.parent['bg'])
+		rWInhibitLabel.grid(row=1, column=0, padx=5)
+		# Right wheel inhibit
+		self.rWInhibit = tk.BooleanVar(value=False)
+		rWInhibitPick = tk.Checkbutton(editRightWheelFrame, variable=self.rWInhibit, text='Inverse', width=7, font='Helvetica 10 bold', indicatoron=0,command=self.updateRightWheelInhibit)
+		rWInhibitPick.grid(row=1, column=1, padx=5)
+
 		# Simulation options frame
 		# Run the simulation
 		self.runSimBtn = tk.Button(simulationOptionsFrame, text='Run Simulation', font='Helvetica 14 bold', width=30, command=self.runSimulation)
@@ -168,6 +204,8 @@ class ContentForm(tk.Frame):
 		addSourceFrame.pack(fill=tk.X)
 		editLeftSensorFrame.pack(fill=tk.X)
 		editRightSensorFrame.pack(fill=tk.X)
+		editLeftWheelFrame.pack(fill=tk.X)
+		editRightWheelFrame.pack(fill=tk.X)
 		simulationOptionsFrame.pack(anchor='center')
 
 	# Retrieves the currently entered values for the source addition and adds it to the environment state
@@ -211,6 +249,8 @@ class ContentForm(tk.Frame):
 		self.updateRightSensorAttach()
 		self.updateLeftSensorInhibit()
 		self.updateRightSensorInhibit()
+		self.updateLeftWheelInhibit()
+		self.updateRightWheelInhibit()
 
 	# Updates the vehicles left sensor attachment
 	def updateLeftSensorAttach(self):
@@ -227,6 +267,14 @@ class ContentForm(tk.Frame):
 	# Updates the vehicles right sensor inhibition
 	def updateRightSensorInhibit(self):
 		app.environment.state['vehicle'].setRightSensorInhibit(self.rSInhibit.get())
+
+	# Updates the vehicles left wheel inhibition
+	def updateLeftWheelInhibit(self):
+		app.environment.state['vehicle'].setLeftWheelInhibit(self.lWInhibit.get())
+
+	# Updates the vehicles right wheel inhibition
+	def updateRightWheelInhibit(self):
+		app.environment.state['vehicle'].setRightWheelInhibit(self.rWInhibit.get())
 
 
 # Class to contain the content on the page that is not the displayed environment

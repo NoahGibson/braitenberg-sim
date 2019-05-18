@@ -15,7 +15,9 @@ This Python-based simulator allows for the editing of basic configurations for a
   <dt>Edit Sensor Output Wheel</dt>
   <dd>The wheel to which that sensor's output is directed to. The sensor output is what affects the speed of the wheel. If no sensor's output is sent to a wheel, then that wheel will remain stationary.</dd>
   <dt>Edit Sensor Inverse</dt>
-  <dd>Whether or not the sensor's output value should be inversed, that is, it will send a low value if it senses a high value, and vice versa. The wheel will move faster with higher values sent to it.</dd>
+  <dd>Whether or not the sensor's output value should be inversed, that is, it will send a low value if it senses a high value, and vice versa.</dd>
+  <dt>Edit Wheel Inverse</dt>
+  <dd>Whether or not the velocity of the wheel should be inversed, that is, it will have a low speed if it receives a high sensor input value, and vice versa.</dd>
 </dl>
 
 

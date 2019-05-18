@@ -15,6 +15,7 @@ class Vehicle:
 		self.width = 30
 		self.height = 20
 		self.maxSpeed = 1
+		self.maxSensor = 300
 
 		# The vertices of the vehicle drawing
 		self.vertices = [
@@ -49,11 +50,13 @@ class Vehicle:
 		# The wheels of the vehicle
 		self.lWheel = {
 			'x': self.x + self.width/2,
-			'y': self.y
+			'y': self.y,
+			'inhibitory': False,
 		}
 		self.rWheel = {
 			'x': self.x - self.width/2,
-			'y': self.y
+			'y': self.y,
+			'inhibitory': False,
 		}
 
 		# Rendering the vehicle drawing initially
@@ -69,26 +72,29 @@ class Vehicle:
 		# Getting the speed of each wheel, and their average speed
 		vRight = 0
 		vLeft = 0
+		iRight = rightInput
+		iLeft = leftInput
+		# Changing inputs if inhibitory
+		if self.rSensor['inhibitory']:
+			iRight = self.maxSensor - iRight
+		if self.lSensor['inhibitory']:
+			iLeft = self.maxSensor - iLeft
 		# Getting the velocity from the corresponding sensors
 		if self.rSensor['attachment'] == 'right':
-			vRight += self.speedRatio * rightInput
+			vRight += self.speedRatio * iRight
 		else:
-			vLeft += self.speedRatio * rightInput
+			vLeft += self.speedRatio * iRight
 		if self.lSensor['attachment'] == 'left':
-			vLeft += self.speedRatio * leftInput
+			vLeft += self.speedRatio * iLeft
 		else:
-			vRight += self.speedRatio * leftInput
+			vRight += self.speedRatio * iLeft
 		# Maxing out the speed of each wheel
 		vRight = vRight if vRight < self.maxSpeed else self.maxSpeed
 		vLeft = vLeft if vLeft < self.maxSpeed else self.maxSpeed
-		# print('vRight: ' + str(vRight))
-		# print('vLeft: ' + str(vLeft))
 		# Changing velocity if inhibitory
-		if self.rSensor['inhibitory']:
-			# vRight = 1/vRight if vRight != 0 else self.maxSpeed
+		if self.rWheel['inhibitory']:
 			vRight = self.maxSpeed - vRight
-		if self.lSensor['inhibitory']:
-			# vLeft = 1/vLeft if vLeft != 0 else self.maxSpeed
+		if self.lWheel['inhibitory']:
 			vLeft = self.maxSpeed - vLeft
 		# Getting average of velocities
 		vAvg = (vRight + vLeft) / 2
@@ -269,3 +275,11 @@ class Vehicle:
 	# Sets the inibition for the right sensor
 	def setRightSensorInhibit(self, inhibit):
 		self.rSensor['inhibitory'] = inhibit
+
+	# Sets the inibition for the left wheel
+	def setLeftWheelInhibit(self, inhibit):
+		self.lWheel['inhibitory'] = inhibit
+
+	# Sets the inibition for the right wheel
+	def setRightWheelInhibit(self, inhibit):
+		self.rWheel['inhibitory'] = inhibit
